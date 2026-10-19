@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم — سنابل الخير</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" rel="stylesheet">
+<style>
+:root{--g900:#06402b;--g700:#0b6b3a;--g600:#12894c;--g100:#e7f4ec;--gold:#d4a017;--gold6:#c9971c;--ink:#1d2b25;--muted:#5d6f66;--line:#e4eae4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#f2f5f2;color:var(--ink)}
+a{text-decoration:none;color:inherit}
+button{font-family:'Cairo';cursor:pointer}
+input,select,textarea{font-family:'Cairo';font-size:14px;padding:11px 14px;border:2px solid var(--line);border-radius:12px;outline:none;width:100%;background:#fff;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--g600)}
+label{font-size:13px;font-weight:700;color:var(--muted);display:block;margin:14px 0 6px}
+.btn{border:none;border-radius:12px;padding:12px 22px;font-weight:800;font-size:14px;transition:.25s}
+.btn-gold{background:linear-gradient(135deg,var(--gold6),var(--gold));color:#fff}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(201,151,28,.4)}
+.btn-green{background:var(--g700);color:#fff}
+.btn-green:hover{background:var(--g900)}
+.btn-ghost{background:#fff;border:2px solid var(--line);color:var(--muted)}
+.btn-danger{background:#fee2e2;color:#b91c1c}
+.btn-sm{padding:7px 14px;font-size:12.5px;border-radius:9px}
+
+/* login */
+.login-wrap{min-height:100vh;display:grid;place-items:center;background:linear-gradient(160deg,var(--g900),var(--g700));padding:20px}
+.login-card{background:#fff;border-radius:24px;padding:44px 38px;width:100%;max-width:400px;box-shadow:0 40px 80px rgba(0,0,0,.35);text-align:center}
+.login-card .mark{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--gold6),var(--gold));display:grid;place-items:center;color:#fff;font-size:26px;margin:0 auto 18px}
+.login-card h1{font-size:22px;color:var(--g900)}
+.login-card p{color:var(--muted);font-size:13.5px;margin:6px 0 18px}
+.login-card input{text-align:center}
+.login-card .btn{width:100%;margin-top:16px}
+.login-err{color:#b91c1c;font-size:13px;font-weight:700;margin-top:10px;display:none}
+.login-note{font-size:11.5px;color:var(--muted);margin-top:14px}
+
+/* layout */
+.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+aside{background:var(--g900);color:#fff;padding:26px 18px;display:flex;flex-direction:column;gap:6px}
+aside .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px;padding:0 8px 22px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:16px}
+aside .brand span{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--gold6),var(--gold));display:grid;place-items:center;font-size:16px}
+.side-link{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;font-weight:700;font-size:14.5px;color:rgba(255,255,255,.75);transition:.2s;border:none;background:none;width:100%;text-align:start}
+.side-link:hover,.side-link.active{background:rgba(255,255,255,.1);color:#fff}
+.side-link.active{background:var(--gold6)}
+.side-link i{width:20px;text-align:center}
+aside .spacer{flex:1}
+main{padding:34px 40px;max-width:1100px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.top h2{font-size:24px;color:var(--g900)}
+.top small{color:var(--muted);font-weight:600}
+.panel{background:#fff;border-radius:20px;padding:28px;box-shadow:0 10px 30px rgba(6,64,43,.06);margin-bottom:26px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.page{display:none}.page.on{display:block}
+.item{display:flex;justify-content:space-between;align-items:center;gap:14px;border:2px solid var(--line);border-radius:14px;padding:14px 18px;margin-top:12px}
+.item b{color:var(--g900)}
+.item small{color:var(--muted);display:block;font-size:12.5px;margin-top:2px}
+.item .acts{display:flex;gap:8px}
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
+.stat{background:#fff;border-radius:16px;padding:20px;box-shadow:0 8px 20px rgba(6,64,43,.05)}
+.stat i{font-size:20px;color:var(--gold6)}
+.stat b{display:block;font-size:24px;color:var(--g900);margin-top:8px}
+.stat span{font-size:13px;color:var(--muted);font-weight:700}
+.swatches{display:flex;gap:8px;margin-top:6px}
+.sw{width:30px;height:30px;border-radius:9px;border:3px solid transparent;cursor:pointer}
+.sw.on{border-color:var(--g900)}
+.hint{font-size:12.5px;color:var(--muted);background:#f6faf6;border-radius:10px;padding:10px 14px;margin-top:16px;line-height:1.8}
+.hint i{color:var(--g700)}
+.toast{position:fixed;bottom:26px;inset-inline-start:26px;background:var(--g900);color:#fff;padding:14px 22px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:0 14px 34px rgba(0,0,0,.3);opacity:0;transform:translateY(20px);transition:.35s;z-index:50}
+.toast.on{opacity:1;transform:none}
+@media(max-width:860px){.shell{grid-template-columns:1fr}aside{flex-direction:row;overflow-x:auto;padding:12px}.stat-cards,.grid2,.grid3{grid-template-columns:1fr 1fr}main{padding:20px}}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-wrap" id="loginScreen">
+  <form class="login-card" id="loginForm">
+    <div class="mark"><i class="fa-solid fa-seedling"></i></div>
+    <h1>لوحة تحكم سنابل الخير</h1>
+    <p>إدارة الأخبار، التبرعات، وتقدم المشاريع</p>
+    <input type="password" id="pass" placeholder="كلمة المرور" autocomplete="current-password">
+    <button class="btn btn-gold" type="submit"><i class="fa-solid fa-right-to-bracket"></i> دخول</button>
+    <div class="login-err" id="loginErr">كلمة المرور غير صحيحة</div>
+    <p class="login-note">تجريبي: <b>admin123</b> — غيّرها من الكود قبل النشر</p>
+  </form>
+</div>
+
+<!-- ============ SHELL ============ -->
+<div class="shell" id="shell" style="display:none">
+  <aside>
+    <div class="brand"><span><i class="fa-solid fa-seedling"></i></span> سنابل الخير</div>
+    <button class="side-link active" data-page="dash"><i class="fa-solid fa-gauge-high"></i> الرئيسية</button>
+    <button class="side-link" data-page="news"><i class="fa-solid fa-newspaper"></i> الأخبار والبوستات</button>
+    <button class="side-link" data-page="donations"><i class="fa-solid fa-hand-holding-heart"></i> سجل التبرعات</button>
+    <button class="side-link" data-page="projects"><i class="fa-solid fa-seedling"></i> تقدم المشاريع</button>
+    <div class="spacer"></div>
+    <a class="side-link" href="index.html"><i class="fa-solid fa-globe"></i> عرض الموقع</a>
+    <button class="side-link" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+  </aside>
+
+  <main>
+    <!-- ===== Dashboard ===== -->
+    <div class="page on" id="page-dash">
+      <div class="top"><div><h2>أهلًا يا بطل الخير 👋</h2><small>نظرة سريعة على موقع الجمعية</small></div></div>
+      <div class="stat-cards">
+        <div class="stat"><i class="fa-solid fa-newspaper"></i><b id="stNews">0</b><span>منشور إخباري</span></div>
+        <div class="stat"><i class="fa-solid fa-hand-holding-heart"></i><b id="stDon">0</b><span>تبرع مسجَّل</span></div>
+        <div class="stat"><i class="fa-solid fa-sack-dollar"></i><b id="stSum">0 ج</b><span>إجمالي التبرعات</span></div>
+        <div class="stat"><i class="fa-solid fa-seedling"></i><b id="stProj">6</b><span>مشاريع نشطة</span></div>
+      </div>
+      <div class="panel">
+        <h3 style="color:var(--g900)">⚡ إجراءات سريعة</h3>
+        <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="go('news')"><i class="fa-solid fa-plus"></i> نزّل بوست / خبر جديد</button>
+          <button class="btn btn-gold" onclick="go('donations')"><i class="fa-solid fa-hand-holding-heart"></i> سجّل تبرع جديد</button>
+          <button class="btn btn-ghost" onclick="go('projects')"><i class="fa-solid fa-chart-line"></i> حدّث تقدم مشروع</button>
+        </div>
+        <div class="hint"><i class="fa-solid fa-circle-info"></i> كل التعديلات تظهر فورًا في الموقع (نفس المتصفح). للنشر الدائم على السيرفر، صدّر البيانات من زر «تصدير» وضعها في ملف JSON.</div>
+      </div>
+    </div>
+
+    <!-- ===== News ===== -->
+    <div class="page" id="page-news">
+      <div class="top"><div><h2>الأخبار والبوستات</h2><small>تظهر في قسم «من حصاد السنابل» بالموقع</small></div></div>
+      <div class="panel">
+        <h3 style="color:var(--g900)" id="newsFormTitle"><i class="fa-solid fa-plus"></i> بوست جديد</h3>
+        <div class="grid2">
+          <div><label>العنوان</label><input id="nTitle" placeholder="مثال: توزيع كسوة العيد على ٣٠٠ طفل"></div>
+          <div><label>التاريخ</label><input id="nDate" placeholder="مثال: ٢٥ أكتوبر ٢٠٢٦"></div>
+        </div>
+        <label>النص</label><textarea id="nText" rows="3" placeholder="تفاصيل الخبر…"></textarea>
+        <div class="grid2">
+          <div><label>الأيقونة</label>
+            <select id="nIcon">
+              <option value="fa-moon">🌙 رمضان/مواسم</option><option value="fa-droplet">💧 مياه</option>
+              <option value="fa-heart-pulse">🏥 طبي</option><option value="fa-child-reaching">👶 أيتام</option>
+              <option value="fa-graduation-cap">🎓 تعليم</option><option value="fa-bowl-food">🍲 طعام</option>
+              <option value="fa-snowflake">🧣 شتاء</option><option value="fa-newspaper" selected>📰 عام</option>
+            </select>
+          </div>
+          <div><label>لون الغلاف</label><div class="swatches" id="nGrad"></div></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button class="btn btn-green" id="nSave"><i class="fa-solid fa-floppy-disk"></i> نشر</button>
+          <button class="btn btn-ghost" id="nCancel" style="display:none">إلغاء</button>
+        </div>
+      </div>
+      <div class="panel"><h3 style="color:var(--g900)">المنشور حاليًا (<span id="newsCount">0</span>)</h3><div id="newsList"></div></div>
+    </div>
+
+    <!-- ===== Donations ===== -->
+    <div class="page" id="page-donations">
+      <div class="top"><div><h2>سجل التبرعات</h2><small>تسجيل يدوي للتبرعات الواردة (نقدًا/تحويل/واتساب)</small></div>
+        <button class="btn btn-ghost" id="expDon"><i class="fa-solid fa-file-export"></i> تصدير CSV</button></div>
+      <div class="panel">
+        <div class="grid3">
+          <div><label>اسم المتبرع (أو «مجهول»)</label><input id="dName" placeholder="أحمد محمد"></div>
+          <div><label>المبلغ (جنيه)</label><input id="dAmt" type="number" placeholder="500"></div>
+          <div><label>المشروع</label><select id="dProj">
+            <option>إطعام الطعام</option><option>كفالة الأيتام</option><option>فك كربة الغارمين</option>
+            <option>مياه نظيفة</option><option>علاج المرضى</option><option>رعاية الطلاب</option><option>صدقة عامة</option>
+          </select></div>
+        </div>
+        <div class="grid2">
+          <div><label>طريقة الدفع</label><select id="dWay"><option>تحويل بنكي</option><option>فودافون كاش</option><option>إنستاباي</option><option>بطاقة</option><option>نقدًا بالجمعية</option></select></div>
+          <div><label>التاريخ</label><input id="dDate" type="date"></div>
+        </div>
+        <button class="btn btn-gold" id="dAdd" style="margin-top:18px"><i class="fa-solid fa-hand-holding-heart"></i> سجّل التبرع</button>
+      </div>
+      <div class="panel"><h3 style="color:var(--g900)">آخر المسجلات (<span id="donCount">0</span>)</h3><div id="donList"></div></div>
+    </div>
+
+    <!-- ===== Projects ===== -->
+    <div class="page" id="page-projects">
+      <div class="top"><div><h2>تقدم المشاريع</h2><small>حرّك الشريط أو عدّل المبالغ — يتحدث في الموقع فورًا</small></div></div>
+      <div class="panel" id="projList"></div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const KEY={news:'snabel_news',don:'snabel_donations',proj:'snabel_projects',auth:'snabel_admin'};
+const GRADS=[['#0b6b3a,#16a34a'],['#b45309,#f59e0b'],['#1e40af,#3b82f6'],['#0e7490,#22d3ee'],['#be123c,#f43f5e'],['#6d28d9,#a78bfa']];
+const DEFAULTS=[
+ {date:'١٥ أكتوبر ٢٠٢٦',title:'حملة «شتاء دافئ» تنطلق',text:'توزيع بطاطين ومدافئ على ٨٠٠ أسرة في قرى الدقهلية قبل موجة البرد.',icon:'fa-moon',grad:'#b45309,#f59e0b'},
+ {date:'٢ أكتوبر ٢٠٢٦',title:'افتتاح البئر رقم ١٢',text:'بئر مياه شرب نقية يخدم ٣ قرى — صدقة جارية باسم المتبرعين.',icon:'fa-droplet',grad:'#0e7490,#22d3ee'},
+ {date:'٢٠ سبتمبر ٢٠٢٦',title:'قافلة طبية مجانية',text:'كشف وتحاليل وأدوية لـ ١٬٢٠٠ مريض بقرية منشأة عبد الله مجانًا.',icon:'fa-heart-pulse',grad:'#be123c,#f43f5e'}
+];
+const load=k=>{try{const v=JSON.parse(localStorage.getItem(k)||'null');return Array.isArray(v)?v:null}catch(e){return null}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const toast=m=>{$('toast').textContent=m;$('toast').classList.add('on');setTimeout(()=>$('toast').classList.remove('on'),2200)};
+
+/* ---- auth (demo only — real auth needs backend) ---- */
+if(sessionStorage.getItem(KEY.auth)==='1')enter();
+$('loginForm').onsubmit=e=>{e.preventDefault();
+  if($('pass').value==='admin123'){sessionStorage.setItem(KEY.auth,'1');enter();}
+  else $('loginErr').style.display='block';};
+function enter(){$('loginScreen').style.display='none';$('shell').style.display='grid';renderAll();}
+$('logoutBtn').onclick=()=>{sessionStorage.removeItem(KEY.auth);location.reload()};
+
+/* ---- nav ---- */
+document.querySelectorAll('.side-link[data-page]').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function go(p){document.querySelectorAll('.side-link[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
+  document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id==='page-'+p));}
+
+/* ---- news CRUD ---- */
+let editIdx=-1,grad=GRADS[0][0];
+GRADS.forEach((g,i)=>{const d=document.createElement('div');d.className='sw'+(i===0?' on':'');d.style.background=`linear-gradient(135deg,${g[0]})`;
+  d.onclick=()=>{grad=g[0];document.querySelectorAll('.sw').forEach(x=>x.classList.remove('on'));d.classList.add('on')};$('nGrad').appendChild(d);});
+function news(){return load(KEY.news)||DEFAULTS}
+function renderNews(){const items=news();$('newsCount').textContent=items.length;
+  $('newsList').innerHTML=items.map((n,i)=>`<div class="item"><div><b>${n.title}</b><small>${n.date} · ${n.text.slice(0,60)}…</small></div>
+   <div class="acts"><button class="btn btn-ghost btn-sm" onclick="editNews(${i})"><i class="fa-solid fa-pen"></i></button>
+   <button class="btn btn-danger btn-sm" onclick="delNews(${i})"><i class="fa-solid fa-trash"></i></button></div></div>`).join('')||'<p style="color:var(--muted);margin-top:12px">لا توجد منشورات بعد.</p>';}
+$('nSave').onclick=()=>{if(!$('nTitle').value||!$('nText').value)return toast('اكتب العنوان والنص أولًا');
+  const items=[...news()];const rec={title:$('nTitle').value,date:$('nDate').value||new Date().toLocaleDateString('ar-EG'),text:$('nText').value,icon:$('nIcon').value,grad};
+  if(editIdx>=0){items[editIdx]=rec;editIdx=-1;$('newsFormTitle').innerHTML='<i class="fa-solid fa-plus"></i> بوست جديد';$('nCancel').style.display='none';}
+  else items.unshift(rec);
+  save(KEY.news,items);$('nTitle').value=$('nText').value=$('nDate').value='';renderAll();toast('✅ تم النشر —ظهر في الموقع فورًا');};
+window.editNews=i=>{const n=news()[i];editIdx=i;$('nTitle').value=n.title;$('nDate').value=n.date;$('nText').value=n.text;$('nIcon').value=n.icon||'fa-newspaper';grad=n.grad;
+  $('newsFormTitle').innerHTML='<i class="fa-solid fa-pen"></i> تعديل البوست';$('nCancel').style.display='inline-block';go('news');$('nTitle').focus();};
+window.delNews=i=>{if(!confirm('حذف هذا المنشور؟'))return;const items=[...news()];items.splice(i,1);save(KEY.news,items);renderAll();toast('تم الحذف');};
+$('nCancel').onclick=()=>{editIdx=-1;$('nTitle').value=$('nText').value=$('nDate').value='';$('newsFormTitle').innerHTML='<i class="fa-solid fa-plus"></i> بوست جديد';$('nCancel').style.display='none';};
+
+/* ---- donations ---- */
+function dons(){return load(KEY.don)||[]}
+function renderDons(){const d=dons();$('donCount').textContent=d.length;
+  $('donList').innerHTML=d.slice(0,20).map((x,i)=>`<div class="item"><div><b>${x.name}</b> — ${Number(x.amt).toLocaleString('en-US')} ج <small>${x.proj} · ${x.way} · ${x.date}</small></div>
+   <div class="acts"><button class="btn btn-danger btn-sm" onclick="delDon(${i})"><i class="fa-solid fa-trash"></i></button></div></div>`).join('')||'<p style="color:var(--muted);margin-top:12px">سجّل أول تبرع من الفورم فوق.</p>';
+  $('stDon').textContent=d.length;$('stSum').textContent=d.reduce((s,x)=>s+Number(x.amt||0),0).toLocaleString('en-US')+' ج';}
+$('dAdd').onclick=()=>{if(!$('dAmt').value)return toast('ادخل المبلغ أولًا');
+  const d=[...dons()];d.unshift({name:$('dName').value||'مجهول — جزاه الله خيرًا',amt:$('dAmt').value,proj:$('dProj').value,way:$('dWay').value,date:$('dDate').value||new Date().toISOString().slice(0,10)});
+  save(KEY.don,d);$('dName').value=$('dAmt').value='';renderAll();toast('💛 تم تسجيل التبرع — جزاكم الله خيرًا');};
+window.delDon=i=>{const d=[...dons()];d.splice(i,1);save(KEY.don,d);renderAll();};
+$('expDon').onclick=()=>{const d=dons();if(!d.length)return toast('لا توجد تبرعات');
+  const csv='\uFEFFالمتبرع,المبلغ,المشروع,الطريقة,التاريخ\n'+d.map(x=>`${x.name},${x.amt},${x.proj},${x.way},${x.date}`).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='donations.csv';a.click();};
+
+/* ---- project progress ---- */
+const PROJ_META=[['إطعام الطعام','fa-utensils'],['كفالة الأيتام','fa-child-reaching'],['فك كربة الغارمين','fa-scale-balanced'],['مياه نظيفة','fa-droplet'],['علاج المرضى','fa-stethoscope'],['رعاية الطلاب','fa-graduation-cap']];
+function projs(){return load(KEY.proj)||PROJ_META.map(p=>({name:p[0],pct:60}))}
+function renderProjs(){$('projList').innerHTML=PROJ_META.map((p,i)=>{const cur=projs()[i]||{pct:60};
+  return `<div class="item" style="display:block"><div style="display:flex;justify-content:space-between"><b><i class="fa-solid ${p[1]}" style="color:var(--gold6);margin-inline-end:8px"></i>${p[0]}</b><b id="pv${i}">${cur.pct}%</b></div>
+  <input type="range" min="0" max="100" value="${cur.pct}" style="margin-top:10px;accent-color:var(--g700)" oninput="setProj(${i},this.value)"></div>`}).join('');}
+window.setProj=(i,v)=>{$('pv'+i).textContent=v+'%';const arr=PROJ_META.map((p,j)=>({name:p[0],pct:(projs()[j]||{pct:60}).pct}));arr[i].pct=+v;save(KEY.proj,arr);
+  toast('تم الحفظ — '+(PROJ_META[i][0])+' '+v+'%');};
+
+function renderAll(){renderNews();renderDons();renderProjs();$('stNews').textContent=news().length;}
+</script>
+</body>
+</html>
